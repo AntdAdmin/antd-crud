@@ -102,8 +102,37 @@ function App() {
 
 * **placeholder**: 搜索框和编辑页面的占位内容
 * **supportSearch**: 是否支持搜素
-* **form**: 编辑表单的 form 设置
-* **dict**: form 的数据字典设置
+* **form**: 编辑表单的 form 设置，类型为 `FormConfig`
+* **dict**: form 的数据字典设置，类型为 `DictConfig`
+
+
+#### `FormConfig` 类型
+
+```ts
+type FormConfig = {
+    
+    //类型
+    type: string,
+
+    //验证规则
+    rules?: any[],
+}
+```
+
+
+#### `DictConfig` 类型
+
+```ts
+type DictConfig = {
+    //数据字典的数据
+    values?:{
+        label: string,
+        value: string,
+    }[],
+    //数据字典请求的 URL
+    url?:string,
+}
+```
 
 
 #### `Actions` 类型说明：

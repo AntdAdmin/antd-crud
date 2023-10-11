@@ -20,9 +20,13 @@ export type FormConfig = {
     rules?: any[],
 }
 
-export type DictInfo = {
-    label: string,
-    value: string,
+export type DictConfig = {
+    values?:{
+        label: string,
+        value: string,
+    }[],
+
+    url?:string,
 }
 
 export type ColumnConfig<RecordType = unknown> = ((ColumnGroupType<RecordType> | ColumnType<RecordType>) & {
@@ -30,7 +34,7 @@ export type ColumnConfig<RecordType = unknown> = ((ColumnGroupType<RecordType> |
     form?: FormConfig,
 
     //数据字典
-    dict?: string | DictInfo[],
+    dict?: DictConfig,
 
     //占位字符
     placeholder?: string,
