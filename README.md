@@ -94,7 +94,7 @@ function App() {
 }
 ```
 
-`ColumnConfig` 类型说明：
+#### `ColumnConfig` 类型说明：
 
 > `ColumnConfig` 继承了 Antd 的 Table 的 Column 的所有配置，参考：https://ant-design.antgroup.com/components/table-cn#column
 
@@ -106,7 +106,7 @@ function App() {
 * **dict**: form 的数据字典设置
 
 
-`Actions` 类型说明：
+#### `Actions` 类型说明：
 
 > `Actions` 是用于定义 AntdCrud 组件的监听方法
 
