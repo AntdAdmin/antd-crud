@@ -2,7 +2,7 @@ import './App.css'
 import AntdCrud, {Actions, ColumnsConfig} from "./components/AntdCrud";
 import {Tag} from "antd";
 
-interface DataType {
+interface Account {
     key: string;
     name: string;
     age: number;
@@ -12,7 +12,7 @@ interface DataType {
 
 function App() {
 
-    const columns: ColumnsConfig<DataType> = [
+    const columns: ColumnsConfig<Account> = [
         {
             title: '姓名',
             dataIndex: 'name',
@@ -63,7 +63,7 @@ function App() {
     ];
 
 
-    const data: DataType[] = [
+    const data: Account[] = [
         {
             key: '1',
             name: 'John Brown',
@@ -87,7 +87,7 @@ function App() {
         },
     ];
 
-    const actions:Actions<DataType> = {
+    const actions:Actions<Account> = {
         onCreate:(row)=>{
             console.log("onCreate",row.age);
         }
@@ -96,7 +96,7 @@ function App() {
 
     return (
         <div style={{width:"960px"}}>
-            <AntdCrud<DataType> columns={columns} dataSource={data} actions={actions} />
+            <AntdCrud<Account> columns={columns} dataSource={data} actions={actions} />
         </div>
     )
 }

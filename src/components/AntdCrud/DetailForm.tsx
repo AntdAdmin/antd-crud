@@ -34,21 +34,23 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
 
     const formItemLayout = {labelCol: {span: 6}, wrapperCol: {span: 14}};
 
-
-
-
     useEffect(() => {
         if (row && actions.onFetchDetail) {
             const newRow = actions.onFetchDetail(row);
             form.setFieldsValue(newRow);
         } else if (row) {
-            console.log("row--1>",row)
             form.setFieldsValue(row)
         }
     }, [row])
 
     const onFinish = (values: T) => {
+        setConfirmLoading(true)
         form.resetFields();
+        if (row) {
+            actions.onUpdate && actions.onUpdate(values);
+        } else {
+            actions.onCreate && actions.onCreate(values);
+        }
         onSubmit(values);
         setConfirmLoading(false)
     }
@@ -56,11 +58,6 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
     const onCancelClick = () => {
         form.resetFields();
         onCancel();
-    };
-
-    const onOkClick = () => {
-        setConfirmLoading(true)
-        form.submit();
     };
 
     function renderInput(column: ColumnConfig) {
@@ -79,7 +76,7 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
     return (
         <Modal title={title}
                open={open}
-               onOk={onOkClick}
+               onOk={form.submit}
                onCancel={onCancelClick}
                confirmLoading={confirmLoading}
                width={"40%"}>

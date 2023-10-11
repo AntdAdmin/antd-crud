@@ -215,11 +215,7 @@ function AntdCrud<T>({columns, dataSource, actions}: AntdCrudProps<T>) {
                            setSelectedRows(selectedRows);
                            setSelectedRowKeys([...selectedRowKeys]);
                            setSelectCount(selectedRows.length);
-                       },
-                       getCheckboxProps: (record: any) => ({
-                           disabled: record.name === 'Disabled User', // Column configuration not to be checked
-                           name: record.name,
-                       }),
+                       }
                    } as TableRowSelection<any>}/>
         </div>
     )
