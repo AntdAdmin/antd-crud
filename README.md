@@ -106,7 +106,7 @@ function App() {
 * **dict**: form 的数据字典设置，类型为 `DictConfig`
 
 
-#### `FormConfig` 类型
+#### `FormConfig` 类型说明：
 
 ```ts
 type FormConfig = {
@@ -120,7 +120,7 @@ type FormConfig = {
 ```
 
 
-#### `DictConfig` 类型
+#### `DictConfig` 类型说明：
 
 ```ts
 type DictConfig = {
