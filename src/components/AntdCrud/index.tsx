@@ -86,6 +86,36 @@ type AntdCrudProps<T> = {
     totalRow: number
 }
 
+/**
+ * 下载 excel 数据
+ * @param columns
+ * @param dataSource
+ */
+function download(columns: ColumnsConfig<any>, dataSource: any[]) {
+    let cvs = '';
+    columns.map((column) => {
+        cvs += `${column.title}, `;
+    })
+    cvs += '\r\n'
+
+    dataSource.map((data) => {
+        columns.map((column) => {
+            cvs += `${data[column.key as string]}, `;
+        })
+        cvs += '\r\n'
+    });
+
+    const _utf = "\uFEFF"; // 为了使Excel以utf-8的编码模式，同时也是解决中文乱码的问题
+    const url = 'data:application/csv;charset=utf-8,' + _utf + encodeURIComponent(cvs);
+    const link = document.createElement("a");
+    link.href = url;
+    link.style.cssText = "visibility:hidden";
+    link.download = "data.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 
 function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalRow}: AntdCrudProps<T>) {
 
@@ -227,13 +257,15 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                 </Space>
 
                 <Space align={"center"} size={"middle"}>
-                    <ReloadOutlined onClick={()=>{
+                    <ReloadOutlined onClick={() => {
                         if (actions.onFetchList) {
                             const totalPage = totalRow % pageSize == 0 ? (totalRow / pageSize) : (totalRow / pageSize + 1);
                             actions.onFetchList(pagination, currentPageSize, totalPage, searchParams, sortKey, sortType);
                         }
                     }}/>
-                    <DownloadOutlined/>
+                    <DownloadOutlined onClick={() => {
+                        download(columns, dataSource);
+                    }}/>
                     <ColumnHeightOutlined/>
                     <FormatPainterOutlined/>
                     <SwapOutlined/>
