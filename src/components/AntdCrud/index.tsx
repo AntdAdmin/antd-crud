@@ -49,7 +49,7 @@ export type ColumnsConfig<RecordType = unknown> = ColumnConfig<RecordType> [];
 
 export type Actions<T> = {
     //获取数据列表
-    onFetchList?: (currentPage: number, pageSize: number, totalPage: number, searchParams: any, orderByKey?: string | null, orderByType?: "asc" | "desc" | null) => void,
+    onFetchList?: (currentPage: number, pageSize: number, totalPage: number, searchParams: any, sortKey?: string | null, sortType?: "asc" | "desc" | null) => void,
 
     //获取数据详情
     onFetchDetail?: (row: T) => T,

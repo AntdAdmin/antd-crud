@@ -152,7 +152,8 @@ type DictConfig = {
 ```ts
 type Actions<T> = {
     //获取数据列表
-    onFetchList?: (currentPage: number, pageSize: number, totalPage: number, searchParams: any, orderByKey: string, orderByType: "asc" | "desc") => void,
+    onFetchList?: (currentPage: number, pageSize: number, totalPage: number
+        , searchParams: any, sortKey: string, sortType: "asc" | "desc") => void,
 
     //获取数据详情
     onFetchDetail?: (row: T) => T,
@@ -174,3 +175,13 @@ type Actions<T> = {
 }
 ```
 需要用户在 `Actions` 定义以上方法，用于对数据进行操作或查询。
+
+### 运行演示
+
+```shell
+git clone https://gitee.com/antdadmin/antd-crud.git
+cd antd-crud
+
+npm install
+npm run dev
+```
