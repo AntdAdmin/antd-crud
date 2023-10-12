@@ -28,14 +28,14 @@ function App() {
             dataIndex: 'age',
             key: 'age',
             supportSearch: true,
-            sorter:true,
+            sorter: true,
         },
         {
             title: '标题',
             dataIndex: 'address',
             key: 'address',
             supportSearch: true,
-            sorter:true,
+            sorter: true,
         },
         {
             title: '地址',
@@ -134,10 +134,12 @@ function App() {
     return (
         <ConfigProvider locale={zh_CN}>
             <div style={{width: "960px"}}>
-                <AntdCrud<Account> columns={columns} dataSource={data} actions={actions}
-                                   pageNumber={1}
-                                   pageSize={10}
-                                   totalRow={2342}/>
+                <AntdCrud columns={columns}
+                          dataSource={data}
+                          actions={actions}
+                          pageNumber={1}
+                          pageSize={10}
+                          totalRow={2342}/>
             </div>
         </ConfigProvider>
     )

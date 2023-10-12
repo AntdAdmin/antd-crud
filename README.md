@@ -12,6 +12,17 @@
 - 4、支持刷新、导出 Excel、数据打印、行高设置等功能
 - 5、更多的 DIY 配置
 
+### 已完成功能
+- [x] 基本增删改查
+- [x] 分页加载
+- [x] 搜索面板
+- [x] 搜索面板自动收缩
+- [x] 批量删除
+- [x] 数据刷新
+- [x] EXCEL 导出
+- [x] 行高设置
+- [x] 打印功能
+
 ### 待完善功能
 
 - [ ] 列设置功能  
@@ -19,6 +30,7 @@
 - [ ] 编辑或查看页面可选 Modal 或者 Drawer
 - [ ] 编辑页面和查看页面分组设置
 - [ ] 编辑页面自定义布局
+- [ ] 编辑和列表在同一个页面的布局选择
 
 ### 开始使用
 
@@ -103,7 +115,12 @@ function App() {
 
     return (
         <div style={{width:"960px"}}>
-            <AntdCrud<Account> columns={columns} dataSource={data} actions={actions} />
+            <AntdCrud columns={columns}
+                      dataSource={data}
+                      actions={actions}
+                      pageNumber={1}
+                      pageSize={10}
+                      totalRow={2342}/>
         </div>
     )
 }
@@ -159,8 +176,12 @@ type DictConfig = {
 ```ts
 type Actions<T> = {
     //获取数据列表
-    onFetchList?: (currentPage: number, pageSize: number, totalPage: number
-        , searchParams: any, sortKey: string, sortType: "asc" | "desc") => void,
+    onFetchList?: (currentPage: number
+        , pageSize: number
+        , totalPage: number
+        , searchParams: any
+        , sortKey: string
+        , sortType: "asc" | "desc") => void,
 
     //获取数据详情
     onFetchDetail?: (row: T) => T,
@@ -181,6 +202,7 @@ type Actions<T> = {
     onSearchItemValueInit?:(key:string) => any
 }
 ```
+
 需要用户在 `Actions` 定义以上方法，用于对数据进行操作或查询。
 
 ### 运行演示
