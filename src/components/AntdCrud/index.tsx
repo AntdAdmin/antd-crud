@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Button, Popconfirm, Space, Table} from "antd";
+import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import {Button, Dropdown, MenuProps, message, Popconfirm, Space, Table, Tooltip} from "antd";
 import {ColumnGroupType, ColumnType, SorterResult, TableRowSelection} from "antd/es/table/interface";
 import SearchForm from "./SearchForm";
 import {
@@ -12,6 +12,8 @@ import {
     RestOutlined, SwapOutlined
 } from "@ant-design/icons";
 import DetailForm from "./DetailForm";
+import {useReactToPrint} from "react-to-print";
+
 
 export type FormConfig = {
     type: string,
@@ -119,6 +121,13 @@ function download(columns: ColumnsConfig<any>, dataSource: any[]) {
 
 function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalRow}: AntdCrudProps<T>) {
 
+    const tableRef: MutableRefObject<any> = useRef();
+    const handlePrint = useReactToPrint({
+        documentTitle: "表格打印",
+        content: () => tableRef.current!,
+    });
+    const [messageApi, contextHolder] = message.useMessage();
+
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [selectedRows, setSelectedRows] = useState<T[]>([]);
     const [selectCount, setSelectCount] = useState(0);
@@ -131,7 +140,7 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
     const [currentPageSize, setCurrentPageSize] = useState(pageSize);
     const [sortKey, setSortKey] = useState<string | null>();
     const [sortType, setSortType] = useState<"asc" | "desc" | null>();
-
+    const [tableSize, setTableSize] = useState<"small" | "middle" | "large">("middle");
 
     const selectNone = () => {
         setSelectedRowKeys([]);
@@ -187,8 +196,33 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
     }, [searchParams, pagination, currentPageSize, sortKey, sortType])
 
 
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: '宽松',
+            onClick: () => {
+                setTableSize("large")
+            }
+        },
+        {
+            key: '2',
+            label: '一般',
+            onClick: () => {
+                setTableSize("middle")
+            }
+        },
+        {
+            key: '3',
+            label: '紧凑',
+            onClick: () => {
+                setTableSize("small")
+            }
+        },
+    ];
+
     return (
         <div>
+            {contextHolder}
             <SearchForm columns={columns} colSpan={6}
                         onSearch={(values: any) => {
                             setSearchParams(values);
@@ -257,23 +291,44 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                 </Space>
 
                 <Space align={"center"} size={"middle"}>
-                    <ReloadOutlined onClick={() => {
-                        if (actions.onFetchList) {
-                            const totalPage = totalRow % pageSize == 0 ? (totalRow / pageSize) : (totalRow / pageSize + 1);
-                            actions.onFetchList(pagination, currentPageSize, totalPage, searchParams, sortKey, sortType);
-                        }
-                    }}/>
-                    <DownloadOutlined onClick={() => {
-                        download(columns, dataSource);
-                    }}/>
-                    <ColumnHeightOutlined/>
-                    <FormatPainterOutlined/>
-                    <SwapOutlined/>
+                    <Tooltip placement="top" title="刷新">
+                        <ReloadOutlined onClick={() => {
+                            if (actions.onFetchList) {
+                                const totalPage = totalRow % pageSize == 0 ? (totalRow / pageSize) : (totalRow / pageSize + 1);
+                                actions.onFetchList(pagination, currentPageSize, totalPage, searchParams, sortKey, sortType);
+                            }
+                        }}/>
+                    </Tooltip>
+
+                    <Tooltip placement="top" title="导出">
+                        <DownloadOutlined onClick={() => {
+                            download(columns, dataSource);
+                        }}/>
+                    </Tooltip>
+
+                    <Tooltip placement="top" title="行高">
+                        <Dropdown menu={{items}} placement="bottom" trigger={["click"]} arrow>
+                            <ColumnHeightOutlined/>
+                        </Dropdown>
+                    </Tooltip>
+
+                    <Tooltip placement="top" title="打印">
+                        <FormatPainterOutlined onClick={() => {
+                            messageApi.success("打印数据准备中...");
+                            handlePrint()
+                        }}/>
+                    </Tooltip>
+
+                    <Tooltip placement="top" title="列设置">
+                        <SwapOutlined/>
+                    </Tooltip>
                 </Space>
 
             </Space>
 
             <Table columns={actionColumns} dataSource={dataSource}
+                   size={tableSize}
+                   ref={tableRef}
                    onChange={(pagination, _, sorter) => {
                        setPagination(pagination.current || 1);
                        setCurrentPageSize(pagination.pageSize || 10);

@@ -91,7 +91,7 @@ const SearchForm: React.FC<{
                     {showMoreButton && (<a onClick={() => {
                         setShowAll(!showAll)
                     }} style={{height: "35px", lineHeight: "35px"}}>
-                        {!showAll ? (<><CaretDownOutlined/> 更多</>) : (<><CaretUpOutlined/> 收回</>)}
+                        {!showAll ? (<><CaretDownOutlined/> 更多</>) : (<><CaretUpOutlined/> 收起</>)}
                     </a>)}
                 </Col>
             </Row>
