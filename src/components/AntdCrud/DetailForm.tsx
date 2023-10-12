@@ -44,15 +44,18 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
     }, [row])
 
     const onFinish = (values: T) => {
-        setConfirmLoading(true)
-        form.resetFields();
-        if (row) {
-            actions.onUpdate && actions.onUpdate(values);
-        } else {
-            actions.onCreate && actions.onCreate(values);
+        try {
+            setConfirmLoading(true)
+            form.resetFields();
+            if (row) {
+                actions.onUpdate && actions.onUpdate(values);
+            } else {
+                actions.onCreate && actions.onCreate(values);
+            }
+            onSubmit(values);
+        } finally {
+            setConfirmLoading(false)
         }
-        onSubmit(values);
-        setConfirmLoading(false)
     }
 
     const onCancelClick = () => {
@@ -79,6 +82,8 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
                onOk={form.submit}
                onCancel={onCancelClick}
                confirmLoading={confirmLoading}
+               okText="确定"
+               cancelText="取消"
                width={"40%"}>
             <Form form={form} style={formStyle} onFinish={onFinish} labelAlign={"right"}
                   {...formItemLayout}>

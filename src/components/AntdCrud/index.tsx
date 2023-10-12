@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Popconfirm, Space, Table} from "antd";
-import {ColumnGroupType, ColumnType, TableRowSelection} from "antd/es/table/interface";
+import {ColumnGroupType, ColumnType, SorterResult, TableRowSelection} from "antd/es/table/interface";
 import SearchForm from "./SearchForm";
 import {
     ColumnHeightOutlined,
@@ -21,12 +21,12 @@ export type FormConfig = {
 }
 
 export type DictConfig = {
-    values?:{
+    values?: {
         label: string,
         value: string,
     }[],
 
-    url?:string,
+    url?: string,
 }
 
 export type ColumnConfig<RecordType = unknown> = ((ColumnGroupType<RecordType> | ColumnType<RecordType>) & {
@@ -47,7 +47,7 @@ export type ColumnsConfig<RecordType = unknown> = ColumnConfig<RecordType> [];
 
 export type Actions<T> = {
     //获取数据列表
-    onFetchList?: (currentPage: number, pageSize: number, totalPage: number, searchParams: any, orderByKey: string, orderByType: "asc" | "desc") => void,
+    onFetchList?: (currentPage: number, pageSize: number, totalPage: number, searchParams: any, orderByKey?: string | null, orderByType?: "asc" | "desc" | null) => void,
 
     //获取数据详情
     onFetchDetail?: (row: T) => T,
@@ -63,6 +63,9 @@ export type Actions<T> = {
 
     //数据创建
     onCreate?: (row: T) => void,
+
+    //初始化搜索框的值
+    onSearchItemValueInit?: (key: string) => any
 }
 
 type AntdCrudProps<T> = {
@@ -75,10 +78,16 @@ type AntdCrudProps<T> = {
 
     //数据源
     dataSource: any,
+
+    pageNumber: number,
+
+    pageSize: number,
+
+    totalRow: number
 }
 
 
-function AntdCrud<T>({columns, dataSource, actions}: AntdCrudProps<T>) {
+function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalRow}: AntdCrudProps<T>) {
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [selectedRows, setSelectedRows] = useState<T[]>([]);
@@ -87,6 +96,12 @@ function AntdCrud<T>({columns, dataSource, actions}: AntdCrudProps<T>) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalRow, setModalRow] = useState<T | null>(null);
     const [confirmLoading, setConfirmLoading] = useState(false);
+    const [searchParams, setSearchParams] = useState();
+    const [pagination, setPagination] = useState(pageNumber);
+    const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+    const [sortKey, setSortKey] = useState<string | null>();
+    const [sortType, setSortType] = useState<"asc" | "desc" | null>();
+
 
     const selectNone = () => {
         setSelectedRowKeys([]);
@@ -134,11 +149,21 @@ function AntdCrud<T>({columns, dataSource, actions}: AntdCrudProps<T>) {
         ),
     });
 
+    useEffect(() => {
+        if (actions.onFetchList) {
+            const totalPage = totalRow % pageSize == 0 ? (totalRow / pageSize) : (totalRow / pageSize + 1);
+            actions.onFetchList(pagination, currentPageSize, totalPage, searchParams, sortKey, sortType);
+        }
+    }, [searchParams, pagination, currentPageSize, sortKey, sortType])
+
+
     return (
         <div>
-            <SearchForm onSearch={() => {
-            }} columns={columns} onInit={() => {
-            }} colSpan={6}/>
+            <SearchForm columns={columns} colSpan={6}
+                        onSearch={(values: any) => {
+                            setSearchParams(values);
+                        }}
+                        onSearchItemValueInit={actions.onSearchItemValueInit!}/>
 
             <DetailForm title={modalTitle}
                         columns={columns}
@@ -212,6 +237,20 @@ function AntdCrud<T>({columns, dataSource, actions}: AntdCrudProps<T>) {
             </Space>
 
             <Table columns={actionColumns} dataSource={dataSource}
+                   onChange={(pagination, _, sorter) => {
+                       setPagination(pagination.current || 1);
+                       setCurrentPageSize(pagination.pageSize || 10);
+                       if (sorter) {
+                           const result = sorter as SorterResult<any>;
+                           setSortKey(result.field as string);
+                           if (result.order) {
+                               setSortType(result.order === "ascend" ? "asc" : "desc");
+                           } else {
+                               setSortKey(null);
+                               setSortType(null);
+                           }
+                       }
+                   }}
                    rowSelection={{
                        type: 'checkbox',
                        selectedRowKeys,
@@ -220,7 +259,18 @@ function AntdCrud<T>({columns, dataSource, actions}: AntdCrudProps<T>) {
                            setSelectedRowKeys([...selectedRowKeys]);
                            setSelectCount(selectedRows.length);
                        }
-                   } as TableRowSelection<any>}/>
+                   } as TableRowSelection<any>}
+                   pagination={
+                       {
+                           position: ["bottomCenter"],
+                           pageSize: currentPageSize,
+                           showQuickJumper: true,
+                           defaultCurrent: pageNumber || 1,
+                           total: totalRow || 0,
+                           showTotal: (total) => `共 ${total} 条数据`,
+                       }
+                   }
+            />
         </div>
     )
 }

@@ -14,17 +14,17 @@ const removeEmpty = (obj: any) => {
     const newObj: any = {};
     Object.keys(obj).forEach((key) => {
         if (obj[key] === Object(obj[key])) newObj[key] = removeEmpty(obj[key]);
-        else if (obj[key] !== undefined) newObj[key] = obj[key].trim();
+        else if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') newObj[key] = obj[key].trim();
     });
     return newObj;
 };
 
 const SearchForm: React.FC<{
     onSearch: (values: any) => void,
-    onInit: (key: string) => any,
+    onSearchItemValueInit: (key: string) => any,
     columns: ColumnsConfig<any>
     colSpan: number
-}> = ({onSearch, onInit, columns, colSpan}) => {
+}> = ({onSearch, onSearchItemValueInit = ()=>{}, columns, colSpan}) => {
 
     const {token} = theme.useToken();
     const [form] = Form.useForm();
@@ -64,14 +64,14 @@ const SearchForm: React.FC<{
                         ? column.supportSearch && (firstLineCountVar-- > 0) &&
                         <Col span={colSpan} key={column.key}>
                             <Form.Item name={column.key!.toString()} label={column.title!.toString()}
-                                       initialValue={onInit(column.key!.toString()) || ""}>
+                                       initialValue={onSearchItemValueInit(column.key!.toString()) || ""}>
                                 <Input placeholder={column.placeholder}/>
                             </Form.Item>
                         </Col>
                         : column.supportSearch && (
                         <Col span={colSpan} key={column.key}>
                             <Form.Item name={column.key!.toString()} label={column.title!.toString()}
-                                       initialValue={onInit(column.key!.toString()) || ""}>
+                                       initialValue={onSearchItemValueInit(column.key!.toString()) || ""}>
                                 <Input placeholder={column.placeholder}/>
                             </Form.Item>
                         </Col>

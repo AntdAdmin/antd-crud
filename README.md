@@ -160,6 +160,9 @@ type Actions<T> = {
 
     //数据创建
     onCreate?: (row: T) => void,
+
+    //初始化搜索框的值
+    onSearchItemValueInit?:(key:string) => any
 }
 ```
 需要用户在 `Actions` 定义以上方法，用于对数据进行操作或查询。
