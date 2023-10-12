@@ -227,7 +227,12 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                 </Space>
 
                 <Space align={"center"} size={"middle"}>
-                    <ReloadOutlined/>
+                    <ReloadOutlined onClick={()=>{
+                        if (actions.onFetchList) {
+                            const totalPage = totalRow % pageSize == 0 ? (totalRow / pageSize) : (totalRow / pageSize + 1);
+                            actions.onFetchList(pagination, currentPageSize, totalPage, searchParams, sortKey, sortType);
+                        }
+                    }}/>
                     <DownloadOutlined/>
                     <ColumnHeightOutlined/>
                     <FormatPainterOutlined/>
