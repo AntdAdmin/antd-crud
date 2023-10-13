@@ -16,10 +16,11 @@ export type Props<T> = {
     actions: Actions<T>,
     row?: T,
     open: boolean
-    title: string
+    title: string,
+    formItemDisabled:boolean
 }
 
-const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title}: Props<T>) => {
+const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title,formItemDisabled}: Props<T>) => {
 
     const {token} = theme.useToken();
     const [form] = Form.useForm();
@@ -80,7 +81,7 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
                     {columns.map((column) => {
                         return (
                             <Col span={20} offset={2} key={column.key}>
-                                <DynamicFormItem column={column}/>
+                                <DynamicFormItem column={column} disabled={formItemDisabled}/>
                             </Col>
                         )
                     })}

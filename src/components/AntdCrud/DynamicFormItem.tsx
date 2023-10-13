@@ -11,53 +11,54 @@ import {ColumnConfig} from "./index";
 const DynamicFormItem: React.FC<{
     column: ColumnConfig<any>,
     onFormItemValueInit?: (key: string) => any,
-}> = ({column, onFormItemValueInit = () => {} }) => {
+    disabled?:boolean
+}> = ({column, onFormItemValueInit = () => {},disabled = false }) => {
 
     function renderInput(column: ColumnConfig) {
         switch (column.form?.type) {
             case "Hidden":
                 return (
-                    <Input type={"hidden"} {...column.form?.attrs}/>
+                    <Input type={"hidden"} {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Radio":
                 return (
-                    <Radio {...column.form?.attrs}/>
+                    <Radio {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Checkbox":
                 return (
-                    <Checkbox {...column.form?.attrs}/>
+                    <Checkbox {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Rate":
                 return (
-                    <Rate {...column.form?.attrs}/>
+                    <Rate {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Switch":
                 return (
-                    <Switch {...column.form?.attrs}/>
+                    <Switch {...column.form?.attrs} disabled={disabled}/>
                 )
             case "DatePicker":
                 return (
-                    <DatePicker placeholder={column.placeholder} {...column.form?.attrs}/>
+                    <DatePicker placeholder={column.placeholder} {...column.form?.attrs} disabled={disabled}/>
                 )
             case "InputNumber":
                 return (
-                    <InputNumber placeholder={column.placeholder} {...column.form?.attrs}/>
+                    <InputNumber placeholder={column.placeholder} {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Select":
                 return (
-                    <Select placeholder={column.placeholder} {...column.form?.attrs} />
+                    <Select placeholder={column.placeholder} {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Slider":
                 return (
-                    <Slider {...column.form?.attrs}/>
+                    <Slider {...column.form?.attrs} disabled={disabled}/>
                 )
             case "Upload":
                 return (
-                    <Upload {...column.form?.attrs}/>
+                    <Upload {...column.form?.attrs} disabled={disabled}/>
                 )
             default:
                 return (
-                    <Input placeholder={column.placeholder} {...column.form?.attrs}/>
+                    <Input placeholder={column.placeholder} {...column.form?.attrs} disabled={disabled}/>
                 )
         }
     }

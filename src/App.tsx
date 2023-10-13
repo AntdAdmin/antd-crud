@@ -39,7 +39,7 @@ function App() {
             form: {
                 type: "Select",
                 attrs: {
-                    defaultValue:'',
+                    // defaultValue:'',
                     options: [
                         {value: '', label: '--请选择--'},
                         {value: 'jack', label: 'Jack'},

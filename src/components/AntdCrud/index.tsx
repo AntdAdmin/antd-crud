@@ -143,6 +143,7 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
     const [sortKey, setSortKey] = useState<string | null>();
     const [sortType, setSortType] = useState<"asc" | "desc" | null>();
     const [tableSize, setTableSize] = useState<"small" | "middle" | "large">("middle");
+    const [formItemDisabled, setFormItemDisabled] = useState<boolean>(false);
 
     const selectNone = () => {
         setSelectedRowKeys([]);
@@ -162,6 +163,7 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                     setModalRow(row)
                     setModalTitle("查看")
                     setIsModalOpen(true)
+                    setFormItemDisabled(true)
                 }}> <EyeOutlined/> 查看 </a>
 
                 <a onClick={() => {
@@ -240,9 +242,11 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                         onCancel={() => {
                             setModalRow(null)
                             setIsModalOpen(false)
+                            setFormItemDisabled(false)
                         }}
                         actions={actions}
                         row={modalRow as T}
+                        formItemDisabled={formItemDisabled}
             />
 
             <Space style={{display: "flex", justifyContent: "space-between", padding: "10px 0"}}>
