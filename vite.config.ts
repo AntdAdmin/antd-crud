@@ -8,7 +8,9 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, './src/components/AntdCrud/index.tsx'),
             name: 'antd-crud',
-            fileName: (format) => `index.${format}.js`
+            // fileName: (format) => `index.${format}.js`
+            fileName: `index`,
+            formats:["es","cjs"]
         },
 
         rollupOptions: {
