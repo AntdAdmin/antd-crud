@@ -1,8 +1,8 @@
 import './App.css'
-import AntdCrud, {Actions, ColumnsConfig} from "./components/AntdCrud";
 import {Tag} from "antd";
 import {ConfigProvider} from 'antd';
 import zh_CN from 'antd/es/locale/zh_CN';
+import AntdCrud, {Actions, ColumnsConfig} from "@codeflex/antd-crud";
 
 interface Account {
     key: string;

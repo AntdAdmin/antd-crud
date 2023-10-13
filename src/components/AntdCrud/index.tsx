@@ -72,7 +72,7 @@ export type Actions<T> = {
     onFormItemValueInit?: (key: string) => any
 }
 
-type AntdCrudProps<T> = {
+export type AntdCrudProps<T> = {
 
     //列配置
     columns: ColumnsConfig<T>,
@@ -89,6 +89,7 @@ type AntdCrudProps<T> = {
 
     totalRow: number
 }
+
 
 /**
  * 下载 excel 数据
