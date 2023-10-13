@@ -18,6 +18,8 @@ import {useReactToPrint} from "react-to-print";
 export type FormConfig = {
     type: string,
 
+    attrs?:any,
+
     //验证规则
     rules?: any[],
 }
@@ -67,7 +69,7 @@ export type Actions<T> = {
     onCreate?: (row: T) => void,
 
     //初始化搜索框的值
-    onSearchItemValueInit?: (key: string) => any
+    onFormItemValueInit?: (key: string) => any
 }
 
 type AntdCrudProps<T> = {
@@ -227,7 +229,7 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                         onSearch={(values: any) => {
                             setSearchParams(values);
                         }}
-                        onSearchItemValueInit={actions.onSearchItemValueInit!}/>
+                        onFormItemValueInit={actions.onFormItemValueInit!}/>
 
             <DetailForm title={modalTitle}
                         columns={columns}

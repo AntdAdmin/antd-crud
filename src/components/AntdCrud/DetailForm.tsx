@@ -2,10 +2,12 @@ import {useEffect, useState} from 'react';
 import {
     Col,
     Form,
-    Input, Modal,
-    Row, theme,
+    Modal,
+    Row,
+    theme,
 } from 'antd';
-import {Actions, ColumnConfig, ColumnsConfig} from "./index";
+import {Actions, ColumnsConfig} from "./index";
+import DynamicFormItem from "./DynamicFormItem";
 
 export type Props<T> = {
     columns: ColumnsConfig<any>
@@ -63,19 +65,6 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
         onCancel();
     };
 
-    function renderInput(column: ColumnConfig) {
-        switch (column.form?.type) {
-            case "Hidden":
-                return (
-                    <Input type={"hidden"}/>
-                )
-            default:
-                return (
-                    <Input placeholder={column.placeholder}/>
-                )
-        }
-    }
-
     return (
         <Modal title={title}
                open={open}
@@ -91,11 +80,7 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
                     {columns.map((column) => {
                         return (
                             <Col span={20} offset={2} key={column.key}>
-                                <Form.Item name={column.key! as string} label={column.title! as string}
-                                           rules={column.form?.rules}
-                                           style={{display: column.form?.type == "Hidden" ? "none" : ""}}>
-                                    {renderInput(column)}
-                                </Form.Item>
+                                <DynamicFormItem column={column}/>
                             </Col>
                         )
                     })}

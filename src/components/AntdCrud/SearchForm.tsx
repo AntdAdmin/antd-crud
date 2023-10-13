@@ -3,12 +3,12 @@ import {
     Button,
     Col,
     Form,
-    Input,
     Row,
     theme,
 } from 'antd';
 import {ColumnsConfig} from "./index";
 import {CaretDownOutlined, CaretUpOutlined} from "@ant-design/icons";
+import DynamicFormItem from "./DynamicFormItem";
 
 const removeEmpty = (obj: any) => {
     const newObj: any = {};
@@ -21,10 +21,10 @@ const removeEmpty = (obj: any) => {
 
 const SearchForm: React.FC<{
     onSearch: (values: any) => void,
-    onSearchItemValueInit: (key: string) => any,
+    onFormItemValueInit: (key: string) => any,
     columns: ColumnsConfig<any>
     colSpan: number
-}> = ({onSearch, onSearchItemValueInit = ()=>{}, columns, colSpan}) => {
+}> = ({onSearch, onFormItemValueInit = ()=>{}, columns, colSpan}) => {
 
     const {token} = theme.useToken();
     const [form] = Form.useForm();
@@ -63,17 +63,11 @@ const SearchForm: React.FC<{
                     return showMoreButton && !showAll
                         ? column.supportSearch && (firstLineCountVar-- > 0) &&
                         <Col span={colSpan} key={column.key}>
-                            <Form.Item name={column.key!.toString()} label={column.title!.toString()}
-                                       initialValue={onSearchItemValueInit(column.key!.toString()) || ""}>
-                                <Input placeholder={column.placeholder}/>
-                            </Form.Item>
+                            <DynamicFormItem column={column} onFormItemValueInit={onFormItemValueInit} />
                         </Col>
                         : column.supportSearch && (
                         <Col span={colSpan} key={column.key}>
-                            <Form.Item name={column.key!.toString()} label={column.title!.toString()}
-                                       initialValue={onSearchItemValueInit(column.key!.toString()) || ""}>
-                                <Input placeholder={column.placeholder}/>
-                            </Form.Item>
+                            <DynamicFormItem column={column} onFormItemValueInit={onFormItemValueInit} />
                         </Col>
                     )
                 })}
@@ -90,7 +84,7 @@ const SearchForm: React.FC<{
                     </Button>
                     {showMoreButton && (<a onClick={() => {
                         setShowAll(!showAll)
-                    }} style={{height: "35px", lineHeight: "35px"}}>
+                    }} style={{height: "33px", lineHeight: "33px"}}>
                         {!showAll ? (<><CaretDownOutlined/> 更多</>) : (<><CaretUpOutlined/> 收起</>)}
                     </a>)}
                 </Col>

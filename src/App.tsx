@@ -27,13 +27,34 @@ function App() {
             title: '年龄',
             dataIndex: 'age',
             key: 'age',
+            placeholder: "请输入年龄",
             supportSearch: true,
             sorter: true,
+        },
+        {
+            title: '标签',
+            dataIndex: 'tag',
+            key: 'tag',
+            supportSearch: true,
+            form: {
+                type: "Select",
+                attrs: {
+                    defaultValue:'',
+                    options: [
+                        {value: '', label: '--请选择--'},
+                        {value: 'jack', label: 'Jack'},
+                        {value: 'lucy', label: 'Lucy'},
+                        {value: 'Yiminghe', label: 'yiminghe'},
+                        {value: 'disabled', label: 'Disabled', disabled: true}],
+                },
+            },
+            render: (text) => <a>{text}</a>,
         },
         {
             title: '标题',
             dataIndex: 'address',
             key: 'address',
+            placeholder: "请输入标题",
             supportSearch: true,
             sorter: true,
         },
@@ -125,8 +146,8 @@ function App() {
         },
 
         //初始化搜索框的值
-        onSearchItemValueInit: (key) => {
-            console.log("onSearchItemValueInit: ", key)
+        onFormItemValueInit: (key) => {
+            console.log("onFormItemValueInit: ", key)
         }
     };
 

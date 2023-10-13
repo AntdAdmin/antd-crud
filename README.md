@@ -199,7 +199,7 @@ type Actions<T> = {
     onCreate?: (row: T) => void,
 
     //初始化搜索框的值
-    onSearchItemValueInit?:(key:string) => any
+    onFormItemValueInit?:(key:string) => any
 }
 ```
 
