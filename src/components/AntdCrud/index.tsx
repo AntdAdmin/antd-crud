@@ -24,21 +24,10 @@ export type FormConfig = {
     rules?: any[],
 }
 
-export type DictConfig = {
-    values?: {
-        label: string,
-        value: string,
-    }[],
-
-    url?: string,
-}
 
 export type ColumnConfig<RecordType = unknown> = ((ColumnGroupType<RecordType> | ColumnType<RecordType>) & {
     //编辑类型
     form?: FormConfig,
-
-    //数据字典
-    dict?: DictConfig,
 
     //占位字符
     placeholder?: string,

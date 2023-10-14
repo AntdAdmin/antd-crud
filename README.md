@@ -34,6 +34,10 @@
 
 ### 开始使用
 
+```shell
+npm i @codeflex/antd-crud
+```
+
 ```tsx
 function App() {
 
@@ -53,7 +57,7 @@ function App() {
             supportSearch:true,
         },
         {
-            title: '标题',
+            title: '地址',
             dataIndex: 'address',
             key: 'address',
             supportSearch:true,
@@ -152,21 +156,6 @@ type FormConfig = {
 ```
 
 
-#### `DictConfig` 类型说明：
-
-```ts
-type DictConfig = {
-    //数据字典的数据
-    values?:{
-        label: string,
-        value: string,
-    }[],
-    //数据字典请求的 URL
-    url?:string,
-}
-```
-
-
 #### `Actions` 类型说明：
 
 > `Actions` 是用于定义 AntdCrud 组件的监听方法
@@ -209,7 +198,7 @@ type Actions<T> = {
 
 ```shell
 git clone https://gitee.com/antdadmin/antd-crud.git
-cd antd-crud
+cd antd-crud/example
 
 npm install
 npm run dev
