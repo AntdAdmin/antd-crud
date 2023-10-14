@@ -1,7 +1,7 @@
 {
   "name": "@codeflex/antd-crud",
   "author": "yangfuhai",
-  "version": "0.0.16",
+  "version": "1.0.0",
   "type": "module",
   "keywords": [
     "antd-crud",

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
-    "@codeflex/antd-crud": "^0.0.16",
+    "@codeflex/antd-crud": "^1.0.0",
     "antd": "^5.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -111,8 +111,8 @@ function App() {
     ];
 
     const actions:Actions<Account> = {
-        onCreate:(row)=>{
-            console.log("onCreate",row.age);
+        onCreate:(account)=>{
+            console.log("onCreate", account);
         }
     };
 
@@ -139,7 +139,6 @@ function App() {
 * **placeholder**: 搜索框和编辑页面的占位内容
 * **supportSearch**: 是否支持搜素
 * **form**: 编辑表单的 form 设置，类型为 `FormConfig`
-* **dict**: form 的数据字典设置，类型为 `DictConfig`
 
 
 #### `FormConfig` 类型说明：
@@ -147,10 +146,15 @@ function App() {
 ```ts
 type FormConfig = {
     
-    //类型
+    // 表单类型，默认为 Input，
+    // 支持：Input、InputNumber、Hidden、Radio、Checkbox、Rate、
+    // Switch、DatePicker、Select、Slider、Upload
     type: string,
+    
+    //自定义属性，支持 antd 控件的所有属性配置
+    attrs?: any,
 
-    //验证规则
+    //验证规则，只在编辑页面起作用
     rules?: any[],
 }
 ```
@@ -203,3 +207,15 @@ cd antd-crud/example
 npm install
 npm run dev
 ```
+
+### AntdAdmin 技术交流群
+
+QQ群：560291578
+
+> **简介：**
+> 
+> AntdAdmin 是一个以 React + Ant.Design 为基础的开源技术社群，其开源（或计划开源）的高级组件有：
+> 
+> - antd-crud：一个基于  React + Ant.Design 的增删改查高级组件（已开源）。
+> - antd-bpmn：一个基于  React + Ant.Design 的工作流设计组件（准备中...）。
+> - antd-builder：一个基于  React + Ant.Design 的拖拽设计组件（准备中...）。
