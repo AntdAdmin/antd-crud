@@ -11,8 +11,11 @@ import {ColumnConfig} from "./index";
 const DynamicFormItem: React.FC<{
     column: ColumnConfig<any>,
     onFormItemValueInit?: (key: string) => any,
-    readOnly?:boolean
-}> = ({column, onFormItemValueInit = () => {},readOnly = false }) => {
+    readOnly?: boolean
+}> = ({
+          column, onFormItemValueInit = () => {
+    }, readOnly = false
+      }) => {
 
     function renderInput(column: ColumnConfig) {
         switch (column.form?.type) {
@@ -58,7 +61,8 @@ const DynamicFormItem: React.FC<{
                 )
             default:
                 return (
-                    <Input placeholder={column.placeholder} {...column.form?.attrs} readOnly={readOnly}/>
+                    <Input placeholder={column.placeholder} {...column.form?.attrs} readOnly={readOnly}
+                           style={{...column.form?.attrs?.style, cursor: readOnly ? "not-allowed" : ""}}/>
                 )
         }
     }

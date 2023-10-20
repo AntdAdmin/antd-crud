@@ -8,7 +8,7 @@ import {
 } from 'antd';
 import {Actions, ColumnGroup, ColumnsConfig} from "./index";
 import DynamicFormItem from "./DynamicFormItem";
-import MyModal from "./MyModal";
+import DetailFormContainer from "./DetailFormContainer";
 
 export type Props<T> = {
     columns: ColumnsConfig<any>
@@ -79,7 +79,7 @@ const DetailForm = <T, >({
     };
 
     return (
-        <MyModal
+        <DetailFormContainer
             type={"modal"}
             title={title}
             open={open}
@@ -122,7 +122,7 @@ const DetailForm = <T, >({
 
                 </Row>
             </Form>
-        </MyModal>
+        </DetailFormContainer>
     );
 };
 
