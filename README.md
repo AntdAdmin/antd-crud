@@ -22,14 +22,14 @@
 - [x] EXCEL 导出
 - [x] 行高设置
 - [x] 打印功能
+- [x] 编辑或查看页面可选 Modal 或者 Drawer
+- [x] 编辑页面和查看页面分组设置
+- [x] 编辑页面自定义布局
 
 ### 待完善功能
 
 - [ ] 列设置功能  
 - [ ] 查看页面数据化（非表单形式展示）
-- [ ] 编辑或查看页面可选 Modal 或者 Drawer
-- [ ] 编辑页面和查看页面分组设置
-- [ ] 编辑页面自定义布局
 - [ ] 编辑和列表在同一个页面的布局选择
 
 ### 开始使用
@@ -218,7 +218,7 @@ type Actions<T> = {
 
 ```shell
 git clone https://gitee.com/antdadmin/antd-crud.git
-cd antd-crud/example
+cd antd-crud
 
 npm install
 npm run dev
