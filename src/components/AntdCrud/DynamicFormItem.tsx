@@ -10,10 +10,10 @@ import {ColumnConfig} from "./index";
 
 const DynamicFormItem: React.FC<{
     column: ColumnConfig<any>,
-    onFormItemValueInit?: (key: string) => any,
+    onSearchValueInit?: (key: string) => any,
     readOnly?: boolean
 }> = ({
-          column, onFormItemValueInit = () => {
+          column, onSearchValueInit = () => {
     }, readOnly = false
       }) => {
 
@@ -49,7 +49,7 @@ const DynamicFormItem: React.FC<{
                 )
             case "Select":
                 return (
-                    <Select placeholder={column.placeholder} {...column.form?.attrs} readOnly={readOnly}/>
+                    <Select placeholder={column.placeholder} {...column.form?.attrs}/>
                 )
             case "Slider":
                 return (
@@ -70,7 +70,7 @@ const DynamicFormItem: React.FC<{
     return (
         <Form.Item name={column.key! as string} label={column.title! as string}
                    style={{display: column.form?.type == "Hidden" ? "none" : ""}}
-                   initialValue={onFormItemValueInit(column.key! as string) || ""}>
+                   initialValue={onSearchValueInit(column.key! as string) || ""}>
             {renderInput(column)}
         </Form.Item>
     );

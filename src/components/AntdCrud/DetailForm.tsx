@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {
     Col,
     Divider,
@@ -80,7 +80,7 @@ const DetailForm = <T, >({
 
     return (
         <DetailFormContainer
-            type={"modal"}
+            type={"Modal"}
             title={title}
             open={open}
             placement="right"
@@ -96,7 +96,7 @@ const DetailForm = <T, >({
                 <Row gutter={24}>
                     {groups && groups.map((group) => {
                         return (
-                            <>
+                            <Fragment key={group.key}>
                                 <Divider orientation="left">{group.title}</Divider>
                                 {columns.filter((column) => column.groupKey == group.key)
                                     .map((column) => {
@@ -107,7 +107,7 @@ const DetailForm = <T, >({
                                             </Col>
                                         )
                                     })}
-                            </>
+                            </Fragment>
                         )
                     })}
 

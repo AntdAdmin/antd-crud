@@ -24,7 +24,10 @@ const SearchForm: React.FC<{
     onSearchValueInit: (key: string) => any,
     columns: ColumnsConfig<any>
     colSpan: number
-}> = ({onSearch, onSearchValueInit = ()=>{}, columns, colSpan}) => {
+}> = ({
+          onSearch, onSearchValueInit = () => {
+    }, columns, colSpan
+      }) => {
 
     const {token} = theme.useToken();
     const [form] = Form.useForm();
@@ -63,11 +66,11 @@ const SearchForm: React.FC<{
                     return showMoreButton && !showAll
                         ? column.supportSearch && (firstLineCountVar-- > 0) &&
                         <Col span={colSpan} key={column.key}>
-                            <DynamicFormItem column={column} onFormItemValueInit={onSearchValueInit} />
+                            <DynamicFormItem column={column} onSearchValueInit={onSearchValueInit}/>
                         </Col>
                         : column.supportSearch && (
                         <Col span={colSpan} key={column.key}>
-                            <DynamicFormItem column={column} onFormItemValueInit={onSearchValueInit} />
+                            <DynamicFormItem column={column} onSearchValueInit={onSearchValueInit}/>
                         </Col>
                     )
                 })}

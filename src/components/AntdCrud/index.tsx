@@ -35,10 +35,10 @@ export type ColumnConfig<RecordType = unknown> = ((ColumnGroupType<RecordType> |
     form?: FormConfig,
 
     //占位长度，默认值为 20
-    colSpan?:number,
+    colSpan?: number,
 
     //offset 默认值为 2
-    colOffset?:number,
+    colOffset?: number,
 
     //分组的 key
     groupKey?: string,
