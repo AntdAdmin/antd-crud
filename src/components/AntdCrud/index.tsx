@@ -18,16 +18,30 @@ import {useReactToPrint} from "react-to-print";
 export type FormConfig = {
     type: string,
 
-    attrs?:any,
+    attrs?: any,
 
     //验证规则
     rules?: any[],
+}
+
+export type ColumnGroup = {
+    key: string,
+    title: string,
 }
 
 
 export type ColumnConfig<RecordType = unknown> = ((ColumnGroupType<RecordType> | ColumnType<RecordType>) & {
     //编辑类型
     form?: FormConfig,
+
+    //占位长度，默认值为 20
+    colSpan?:number,
+
+    //offset 默认值为 2
+    colOffset?:number,
+
+    //分组的 key
+    groupKey?: string,
 
     //占位字符
     placeholder?: string,
@@ -58,13 +72,16 @@ export type Actions<T> = {
     onCreate?: (row: T) => void,
 
     //初始化搜索框的值
-    onFormItemValueInit?: (key: string) => any
+    onSearchValueInit?: (key: string) => any
 }
 
 export type AntdCrudProps<T> = {
 
     //列配置
     columns: ColumnsConfig<T>,
+
+    //分组显示
+    groups?: ColumnGroup[],
 
     //操作方法
     actions: Actions<T>,
@@ -111,7 +128,7 @@ function download(columns: ColumnsConfig<any>, dataSource: any[]) {
 }
 
 
-function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalRow}: AntdCrudProps<T>) {
+function AntdCrud<T>({columns, groups, dataSource, actions, pageNumber, pageSize, totalRow}: AntdCrudProps<T>) {
 
     const tableRef: MutableRefObject<any> = useRef();
     const handlePrint = useReactToPrint({
@@ -221,11 +238,12 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                         onSearch={(values: any) => {
                             setSearchParams(values);
                         }}
-                        onFormItemValueInit={actions.onFormItemValueInit!}/>
+                        onSearchValueInit={actions.onSearchValueInit!}/>
 
             <DetailForm title={modalTitle}
                         columns={columns}
                         open={isModalOpen}
+                        groups={groups}
                         onSubmit={() => {
                             setIsModalOpen(false)
                         }}
@@ -236,7 +254,7 @@ function AntdCrud<T>({columns, dataSource, actions, pageNumber, pageSize, totalR
                         }}
                         actions={actions}
                         row={modalRow as T}
-                        formItemDisabled={formItemDisabled}
+                        formReadOnly={formItemDisabled}
             />
 
             <Space style={{display: "flex", justifyContent: "space-between", padding: "10px 0"}}>

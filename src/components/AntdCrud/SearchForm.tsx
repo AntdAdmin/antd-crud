@@ -21,10 +21,10 @@ const removeEmpty = (obj: any) => {
 
 const SearchForm: React.FC<{
     onSearch: (values: any) => void,
-    onFormItemValueInit: (key: string) => any,
+    onSearchValueInit: (key: string) => any,
     columns: ColumnsConfig<any>
     colSpan: number
-}> = ({onSearch, onFormItemValueInit = ()=>{}, columns, colSpan}) => {
+}> = ({onSearch, onSearchValueInit = ()=>{}, columns, colSpan}) => {
 
     const {token} = theme.useToken();
     const [form] = Form.useForm();
@@ -63,11 +63,11 @@ const SearchForm: React.FC<{
                     return showMoreButton && !showAll
                         ? column.supportSearch && (firstLineCountVar-- > 0) &&
                         <Col span={colSpan} key={column.key}>
-                            <DynamicFormItem column={column} onFormItemValueInit={onFormItemValueInit} />
+                            <DynamicFormItem column={column} onFormItemValueInit={onSearchValueInit} />
                         </Col>
                         : column.supportSearch && (
                         <Col span={colSpan} key={column.key}>
-                            <DynamicFormItem column={column} onFormItemValueInit={onFormItemValueInit} />
+                            <DynamicFormItem column={column} onFormItemValueInit={onSearchValueInit} />
                         </Col>
                     )
                 })}

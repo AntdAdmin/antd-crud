@@ -1,13 +1,14 @@
 import {useEffect, useState} from 'react';
 import {
     Col,
+    Divider,
     Form,
-    Modal,
     Row,
     theme,
 } from 'antd';
-import {Actions, ColumnsConfig} from "./index";
+import {Actions, ColumnGroup, ColumnsConfig} from "./index";
 import DynamicFormItem from "./DynamicFormItem";
+import MyModal from "./MyModal";
 
 export type Props<T> = {
     columns: ColumnsConfig<any>
@@ -17,10 +18,21 @@ export type Props<T> = {
     row?: T,
     open: boolean
     title: string,
-    formItemDisabled:boolean
+    formReadOnly: boolean,
+    groups?: ColumnGroup[],
 }
 
-const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title,formItemDisabled}: Props<T>) => {
+const DetailForm = <T, >({
+                             columns,
+                             onSubmit,
+                             onCancel,
+                             actions,
+                             row,
+                             open,
+                             title,
+                             formReadOnly,
+                             groups
+                         }: Props<T>) => {
 
     const {token} = theme.useToken();
     const [form] = Form.useForm();
@@ -67,27 +79,50 @@ const DetailForm = <T, >({columns, onSubmit, onCancel, actions, row, open, title
     };
 
     return (
-        <Modal title={title}
-               open={open}
-               onOk={form.submit}
-               onCancel={onCancelClick}
-               confirmLoading={confirmLoading}
-               okText="确定"
-               cancelText="取消"
-               width={"40%"}>
+        <MyModal
+            type={"modal"}
+            title={title}
+            open={open}
+            placement="right"
+            onOk={form.submit}
+            onClose={onCancelClick}
+            onCancel={onCancelClick}
+            confirmLoading={confirmLoading}
+            okText="确定"
+            cancelText="取消"
+            width={"40%"}>
             <Form form={form} style={formStyle} onFinish={onFinish} labelAlign={"right"}
                   {...formItemLayout}>
                 <Row gutter={24}>
-                    {columns.map((column) => {
+                    {groups && groups.map((group) => {
                         return (
-                            <Col span={20} offset={2} key={column.key}>
-                                <DynamicFormItem column={column} disabled={formItemDisabled}/>
-                            </Col>
+                            <>
+                                <Divider orientation="left">{group.title}</Divider>
+                                {columns.filter((column) => column.groupKey == group.key)
+                                    .map((column) => {
+                                        return (
+                                            <Col span={column.colSpan || 20} offset={column.colOffset || 2}
+                                                 key={column.key}>
+                                                <DynamicFormItem column={column} readOnly={formReadOnly}/>
+                                            </Col>
+                                        )
+                                    })}
+                            </>
                         )
                     })}
+
+                    {columns.filter((column) => !column.groupKey)
+                        .map((column) => {
+                            return (
+                                <Col span={column.colSpan || 20} offset={column.colOffset || 2} key={column.key}>
+                                    <DynamicFormItem column={column} readOnly={formReadOnly}/>
+                                </Col>
+                            )
+                        })}
+
                 </Row>
             </Form>
-        </Modal>
+        </MyModal>
     );
 };
 

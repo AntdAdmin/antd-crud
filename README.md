@@ -138,7 +138,23 @@ function App() {
 
 * **placeholder**: 搜索框和编辑页面的占位内容
 * **supportSearch**: 是否支持搜素
+* **colSpan**: 占位长度，默认值为 20
+* **colOffset**: offset 默认值为 2
+* **groupKey**: 分组的 key
 * **form**: 编辑表单的 form 设置，类型为 `FormConfig`
+
+
+#### `ColumnGroup` 类型说明：
+
+用于在新增、编辑和查看页面，分组显示 form 内容。
+
+```ts
+export type ColumnGroup = {
+    key: string,
+    title: string,
+}
+```
+
 
 
 #### `FormConfig` 类型说明：
@@ -192,7 +208,7 @@ type Actions<T> = {
     onCreate?: (row: T) => void,
 
     //初始化搜索框的值
-    onFormItemValueInit?:(key:string) => any
+    onSearchValueInit?:(key:string) => any
 }
 ```
 
